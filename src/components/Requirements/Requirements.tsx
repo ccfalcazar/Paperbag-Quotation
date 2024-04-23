@@ -19,7 +19,7 @@ function Requirements()
         {
             req.map((item,index)=>(
             <div className="input-group mb-3 w-50">
-                    <span className="input-group-text w-25">{item}:</span>
+                    <span className="input-group-text w-50">{item}:</span>
                     {InputType(item,index)}
             </div>
         ))}
