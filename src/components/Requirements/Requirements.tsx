@@ -3,8 +3,6 @@ function InputType(item:string, index:number)
 {
     let Material = ['Kraft Brown', 'Ordinary', 'Premium'];
     let Lamination = ['None', 'Matte', 'Plastic']
-    let Info=['Specify Order Quantity','Specify Length of Paperbag in Inches','Specify Width of Paperbag in Inches',
-    'Specify Height of Paperbag in Inches', 'Specify Material to be Used', 'Specify number of Spot Colors (for CMYK set to 4)', 'Must be specified if material is premium']
 
     if(item == 'Material')
         {
