@@ -9,7 +9,7 @@ function Form()
             <div className={`card ${isMobile===true ? `w-100`:`w-50`} m-auto shadow border border-5 border-light h-75`}>
                 <div className='card-header p-3 d-flex align-items-middle'>
                     <Logo/>
-                    <p className='ms-auto mt-auto mb-auto display-6 fs-3 text-dark'>Paper Bag Quotation</p>
+                    <p className='ms-auto mt-auto mb-auto display-6 fs-3 text-dark'>Paper Bag Quotations</p>
                 </div>
                 <div className='card-body'>
                     <Requirements/>
