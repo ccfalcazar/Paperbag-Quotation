@@ -7,10 +7,9 @@ function InputType(item:string, index:number)
     if(item == 'Material')
         {
             return <>
-            <select key={index} id={item} className="form-select text-center" > 
-                <option value="" disabled selected hidden>List of Materials</option>
-                {Material.map((mats,index)=>(
-                    <option key={index}>{mats}</option>
+            <select key={index} id={item} className="form-select text-center" >
+                {Material.map((mats)=>(
+                    <option key={mats}>{mats}</option>
                 ))}
                 
             </select>
@@ -18,9 +17,9 @@ function InputType(item:string, index:number)
         }
     else if(item == 'Lamination')
         {
-            return <select key={index} id={item} className="form-select text-center">
-            {Lamination.map((lam,index)=>(
-                <option key={index}>{lam}</option>
+            return <select key={item} className="form-select text-center">
+            {Lamination.map((lam)=>(
+                <option key={lam}>{lam}</option>
             ))}
             
         </select>
@@ -40,8 +39,8 @@ function Requirements()
                 <h5 className="mb-3">Paperbag Details:</h5>
                 {
                     Req.map((item,index)=>(
-                    <div className="input-group mb-2">
-                            <span className="input-group-text w-50">{item}:</span>
+                    <div key={"div" + item} className="input-group mb-2">
+                            <span key={"span" + item} className="input-group-text w-50">{item}:</span>
                             {InputType(item,index)}
                     </div>
                 ))}
