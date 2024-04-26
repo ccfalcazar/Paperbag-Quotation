@@ -7,8 +7,10 @@ function Form()
         <div className='vh-100 d-flex'>
             <div className='d-md-block d-none card w-50 m-auto shadow border border-5 border-light'>
                 <div className='card-header p-3 d-flex align-items-middle'>
-                    <Logo/>
-                    <p className='ms-auto mt-auto mb-auto display-6 fs-3 text-dark w-50 text-end'>Paper Bag Quotation Form</p>
+                    <div className='card-img-top w-50'>  
+                        <Logo/>
+                    </div>
+                    <p className='ms-auto mt-auto mb-auto display-6 fs-3 text-dark text-end'>Paper Bag Quotation Form</p>
                 </div>
                 <div className='card-body'>
                     <Requirements/>
@@ -16,7 +18,9 @@ function Form()
             </div>
             <div className='d-sm-block d-md-none card m-auto shadow border border-5 border-light'>
                 <div className='card-header p-3 d-flex align-items-middle'>
-                    <Logo/>
+                    <div className='card-img-top w-50'>  
+                        <Logo/>
+                    </div>
                     <p className='ms-auto mt-auto mb-auto display-6 fs-3 text-dark text-end'>Paper Bag Quotation Form</p>
                 </div>
                 <div className='card-body'>
