@@ -1,5 +1,5 @@
 
-function InputType(item:string, index:number)
+function InputType(item:string, TextType:string)
 {
     let Material = ['Kraft Brown', 'Ordinary', 'Premium'];
     let Lamination = ['None', 'Matte', 'Plastic']
@@ -25,7 +25,7 @@ function InputType(item:string, index:number)
         </select>
         }
     else
-        return <input key={"txt"+item} id={item} type="text" className="form-control text-center"></input>
+        return <input key={"txt"+item} id={item} type={TextType} className="form-control text-center"></input>
 }
 
 function Requirements()
@@ -36,12 +36,13 @@ function Requirements()
         <>
         <div className="row">
             <div className="col-md-6">
+                <form>
                 <h5 className="mb-3">Paperbag Details:</h5>
                 {
-                    Req.map((item,index)=>(
+                    Req.map((item)=>(
                     <div key={"div" + item} className="input-group mb-2">
                             <span key={"span" + item} className="input-group-text w-50">{item}:</span>
-                            {InputType(item,index)}
+                            {InputType(item,"number")}
                     </div>
                 ))}
                 <div className="btn btn-outline-primary w-100 mb-2">Submit Details</div>
@@ -53,18 +54,20 @@ function Requirements()
                     <span className="input-group-text w-50">Total Price</span>
                     <input type="number" className="form-control text-center" disabled key="TotalPrice"></input>
                 </div>
+                </form>
             </div>
             <div className="col-md-6 justify-content-center">
+                <form>
                 <h5 className="mb-3">Customer Details:</h5>
                 {
-                    ClientDetails.map((item,index)=>(
+                    ClientDetails.map((item)=>(
                     <div key={"div" + item} className="input-group mb-3">
                             <span key={"span"+item} className="input-group-text w-50">{item}:</span>
-                            {InputType(item,index)}
+                            {InputType(item,"text")}
                     </div>
                 ))}
                 <span className="d-flex justify-content-center"><button className="btn btn-outline-primary">Send Quotation</button></span>
-                
+                </form>
             </div>
         </div>
         </>
