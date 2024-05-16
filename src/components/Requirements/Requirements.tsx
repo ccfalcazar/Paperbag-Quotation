@@ -94,9 +94,9 @@ function Requirements()
     {
         let LengthToLength = Math.trunc(GetPaperSize().Length/GetPaperBagSpreadSize().Length) * Math.trunc(GetPaperSize().Width/GetPaperBagSpreadSize().Width);
         let LengthToWidth =Math.trunc(GetPaperSize().Length/GetPaperBagSpreadSize().Width) * Math.trunc(GetPaperSize().Width/GetPaperBagSpreadSize().Length);
-        let SpreadQuantity = (parseFloat(Quantity.toString()) * 2) * 1.10;
+        let SpreadQuantity = (parseFloat(Quantity.toString()) * 2);
         let OutsPerSheet = LengthToLength>LengthToWidth? LengthToLength : LengthToWidth;
-        return (SpreadQuantity/OutsPerSheet);
+        return Math.round((SpreadQuantity/OutsPerSheet)*1.20);
     }
 
     function ComputePaperCost()
@@ -123,7 +123,7 @@ function Requirements()
     {
          let InitialCost = 600;
          let SucceedingCost = GetRequiredPaper() > 1000? Math.ceil((GetRequiredPaper() - 1000) / 1000) * 300 : 0;
-         return InitialCost + SucceedingCost;
+         return (InitialCost + SucceedingCost) * parseFloat(ColorNumber.toString());
     }
 
     function ComputeLaminationCost()
