@@ -164,11 +164,12 @@ function Requirements()
 
     function ComputeDiecuttingBladeCost()
     {
-        let VerticalLines = 5 * 8 * GetPaperBagSpreadSize().Length;
-        let HorizontalLines = 4 * 8 * GetPaperBagSpreadSize().Width;
+        let BladeCostPerInch = 12;
+        let VerticalLines = 5 * BladeCostPerInch * GetPaperBagSpreadSize().Length;
+        let HorizontalLines = 5 * BladeCostPerInch * GetPaperBagSpreadSize().Width;
         let A = parseFloat(Depth.toString()) / 2;
         let Cos45 = Math.cos(45);
-        let Hypotenuse = Math.floor(((0.5+A)/Cos45)) * 8 * 2;
+        let Hypotenuse = Math.floor(((0.5+A)/Cos45)) * BladeCostPerInch * 2;
         return VerticalLines + HorizontalLines + Hypotenuse;
     }
 
