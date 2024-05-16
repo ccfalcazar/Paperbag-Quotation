@@ -3,15 +3,15 @@ import InputField from "../InputFields/InputField";
 
 function Requirements()
 {
-    const [UnitPrice, ComputeUnitPrice] = useState(FormatCurrency(0));
-    const [TotalPrice, ComputeTotalPrice] = useState(FormatCurrency(0));
+    const [UnitPrice, SetUnitPrice] = useState(FormatCurrency(0));
+    const [TotalPrice, SetTotalPrice] = useState(FormatCurrency(0));
     const [Quantity, SetQuantity] = useState(0);
     const [Depth, SetDepth] = useState(0);
     const [Width, SetWidth] = useState(0);
     const [Height, SetHeight] = useState(0);
-    const [MaterialSelected, SetMaterial] = useState(0);
+    const [MaterialSelected, SetMaterial] = useState('Ordinary');
     const [ColorNumber, SetColors] = useState(0);
-    const [LaminationSelected, SetLamination] = useState(0);
+    const [LaminationSelected, SetLamination] = useState('None');
     const [CustomerName, SetCustomerName] = useState('');
     const [CompanyName, SetCompanyName] = useState('');
     const [ContactNumber, SetContactNumber] = useState('');
@@ -69,25 +69,123 @@ function Requirements()
         SetCustomerEmail(e.target.value);
     }
 
-    function FormatCurrency(number: number | bigint)
+    function FormatCurrency(number: number)
     {
         return new Intl.NumberFormat('en-US',{style:"currency", currency:'PHP'}).format(number);
     }
 
-    function ComputePaperBagSize()
+    function GetPaperBagSpreadSize()
     {
-        let TotalRunningLength = (parseFloat(Depth.toString())/2 + 0.5) + parseFloat(Height.toString());
+        let TotalRunningLength = (parseFloat(Depth.toString())/2 + 0.5) + parseFloat(Height.toString()) + 2;
         let TotalRunningWidth = parseFloat(Width.toString()) + parseFloat(Depth.toString()) + 0.5;
 
-        const PaperSize = Size(TotalRunningLength,TotalRunningWidth);
-        alert(PaperSize.Length);
+        const RunningSize = Size(TotalRunningLength,TotalRunningWidth);
+        return RunningSize;
+    }
+
+    function GetPaperSize()
+    {
+        const PaperSize = (MaterialSelected == 'Kraft Brown'? Size(43,31):Size(38,25));
+        
+        return PaperSize;
+    }
+
+    function GetRequiredPaper()
+    {
+        let LengthToLength = Math.trunc(GetPaperSize().Length/GetPaperBagSpreadSize().Length) * Math.trunc(GetPaperSize().Width/GetPaperBagSpreadSize().Width);
+        let LengthToWidth =Math.trunc(GetPaperSize().Length/GetPaperBagSpreadSize().Width) * Math.trunc(GetPaperSize().Width/GetPaperBagSpreadSize().Length);
+        let SpreadQuantity = parseFloat(Quantity.toString()) * 2 + (parseFloat(ColorNumber.toString()) * 40);
+        let OutsPerSheet = LengthToLength>LengthToWidth? LengthToLength : LengthToWidth;
+        return (SpreadQuantity/OutsPerSheet);
+    }
+
+    function ComputePaperCost()
+    {
+        let PaperCost = 0;
+
+        if(MaterialSelected == 'Ordinary')
+        {
+            PaperCost = (2560 / 500);
+        }
+        else if(MaterialSelected == 'Kraft Brown')
+        {
+            PaperCost = (2800/480);
+        }
+        else if(MaterialSelected == 'Premium')
+        {
+            PaperCost = 12;
+        }
+        
+        return GetRequiredPaper() * PaperCost;
+    }
+
+    function ComputeOffsetCost()
+    {
+         let InitialCost = 600;
+         let SucceedingCost = GetRequiredPaper() > 1000? Math.ceil((GetRequiredPaper() - 1000) / 1000) * 300 : 0;
+         return InitialCost + SucceedingCost;
+    }
+
+    function ComputeLaminationCost()
+    {
+        let LaminationCost = 0;
+        if(LaminationSelected == 'Matte')
+        {
+            LaminationCost = 0.009;
+        }
+        else if(LaminationSelected == 'Glossy')
+        {
+            LaminationCost = 0.002;
+        }
+        return (GetPaperBagSpreadSize().Length* GetPaperBagSpreadSize().Width * LaminationCost * GetRequiredPaper())
+    }
+
+    function ComputeCTPCost()
+    {
+        return parseFloat(ColorNumber.toString()) * 450;
+    }
+
+    function ComputeBindingCost()
+    {
+        return parseFloat(Quantity.toString()) * 5;
+    }
+
+    function ComputeHandleCost()
+    {
+        return parseFloat(Quantity.toString()) * 2;
+    }
+
+    function ComputeDiecuttingCost()
+    {
+        let InitialCost = 400;
+        let SucceedingCost = GetRequiredPaper() > 1000? Math.ceil((GetRequiredPaper() - 1000) / 1000) * 200 : 0;
+        return InitialCost + SucceedingCost;
+    }
+
+    function ComputeDiecuttingBladeCost()
+    {
+        let VerticalLines = 5 * 8 * GetPaperBagSpreadSize().Length;
+        let HorizontalLines = 4 * 8 * GetPaperBagSpreadSize().Width;
+        let A = parseFloat(Depth.toString()) / 2;
+        let Cos45 = Math.cos(45);
+        let Hypotenuse = Math.floor(((0.5+A)/Cos45)) * 8 * 2;
+        return VerticalLines + HorizontalLines + Hypotenuse;
+    }
+
+    function ComputeTotalCost()
+    {
+        let TotalCost = ComputePaperCost() + ComputeOffsetCost() + ComputeLaminationCost()
+                        + ComputeCTPCost() + ComputeBindingCost() + ComputeHandleCost() +
+                        ComputeDiecuttingCost() + ComputeDiecuttingBladeCost() + 2000;
+        TotalCost = TotalCost * (1.30);
+        TotalCost = TotalCost * (1.12);
+        return Math.round(parseFloat(TotalCost.toFixed(2))); 
     }
 
     function Compute()
     {
-        ComputePaperBagSize();
-        ComputeUnitPrice(FormatCurrency(Quantity));
-        ComputeTotalPrice(FormatCurrency(1000));
+        SetUnitPrice(FormatCurrency((ComputeTotalCost() / parseFloat(Quantity.toString()))));
+        SetTotalPrice(FormatCurrency(ComputeTotalCost()));
     }
 
     return (

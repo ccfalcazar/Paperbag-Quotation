@@ -11,7 +11,7 @@ function InputField({item,textType,inputValue,inputEvent}: Props)
     function InputType()
     {
     let Material = ['Ordinary','Kraft Brown', 'Premium'];
-    let Lamination = ['None', 'Matte', 'Plastic']
+    let Lamination = ['None', 'Matte', 'Glossy']
 
     if(item == 'Material')
         {
