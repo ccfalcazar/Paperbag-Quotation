@@ -94,7 +94,7 @@ function Requirements()
     {
         let LengthToLength = Math.trunc(GetPaperSize().Length/GetPaperBagSpreadSize().Length) * Math.trunc(GetPaperSize().Width/GetPaperBagSpreadSize().Width);
         let LengthToWidth =Math.trunc(GetPaperSize().Length/GetPaperBagSpreadSize().Width) * Math.trunc(GetPaperSize().Width/GetPaperBagSpreadSize().Length);
-        let SpreadQuantity = parseFloat(Quantity.toString()) * 2 + (parseFloat(ColorNumber.toString()) * 40);
+        let SpreadQuantity = (parseFloat(Quantity.toString()) * 2) * 1.10;
         let OutsPerSheet = LengthToLength>LengthToWidth? LengthToLength : LengthToWidth;
         return (SpreadQuantity/OutsPerSheet);
     }
