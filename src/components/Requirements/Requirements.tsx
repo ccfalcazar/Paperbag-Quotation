@@ -221,7 +221,7 @@ function Requirements()
                     <InputField item="Company Name" inputValue={CompanyName} textType="text" inputEvent={handlesCompanyName}/>
                     <InputField item="Contact Number" inputValue={ContactNumber} textType="text" inputEvent={handlesContactNumber}/>
                     <InputField item="Email" inputValue={CustomerEmail} textType="text" inputEvent={handlesCustomerEmail}/>
-                <span className="d-flex justify-content-center"><button className="btn btn-outline-primary">Send Quotation</button></span>
+                <span className="d-flex justify-content-center"><button className="btn btn-outline-primary">Request Quotation</button></span>
                 </form>
             </div>
         </div>
