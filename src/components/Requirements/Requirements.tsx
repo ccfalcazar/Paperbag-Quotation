@@ -180,13 +180,14 @@ function Requirements()
                         ComputeDiecuttingCost() + ComputeDiecuttingBladeCost() + 2000;
         TotalCost = TotalCost * (1.30);
         TotalCost = TotalCost * (1.12);
-        return Math.round(parseFloat(TotalCost.toFixed(2))); 
+        return Math.ceil(parseFloat(TotalCost.toFixed(2))); 
     }
 
     function Compute()
     {
-        SetUnitPrice(FormatCurrency((ComputeTotalCost() / parseFloat(Quantity.toString()))));
-        SetTotalPrice(FormatCurrency(ComputeTotalCost()));
+        let UnitPrice = (ComputeTotalCost() / parseFloat(Quantity.toString()));
+        SetUnitPrice(FormatCurrency(UnitPrice));
+        SetTotalPrice(FormatCurrency(UnitPrice * parseFloat(Quantity.toString())));
     }
 
     return (

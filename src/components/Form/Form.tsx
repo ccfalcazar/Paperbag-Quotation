@@ -8,10 +8,10 @@ function Form()
             <div className='col-md-8 card m-auto shadow border border-5 border-light m-0 p-0'>
                 <div className='card-header py-3 m-0 px-2'>
                     <div className='row p-0 m-0 text-center'>
-                    <div className='col-md-2'>  
+                    <div className='col-md-4'>
                         <Logo/>
                     </div>
-                    <div className='col-md-10'>
+                    <div className='col-md-8 mt-auto mb-auto'>
                         <p className='display-6 fs-3 text-primary text-md-end pt-4 mb-0'>Paper Bag Quotation Form</p>
                     </div>
                     </div>
