@@ -1,4 +1,4 @@
-import { useState} from "react";
+import { useEffect, useState} from "react";
 import InputField from "../InputFields/InputField";
 import ContactForm from "../ContactForm/ContactForm";
 
@@ -14,6 +14,9 @@ function Requirements()
     const [ColorNumber, SetColors] = useState(0);
     const [LaminationSelected, SetLamination] = useState('None');
     const [Summary, SetSummary] = useState('Paperbag Details');
+    useEffect(Compute);
+    useEffect(handlesTotal);
+
     const Size = function(PaperLength : number, PaperWidth : number) 
     {
         const Length = PaperLength;
@@ -174,16 +177,19 @@ function Requirements()
         TotalCost = TotalCost * (1.12);
         return Math.ceil(parseFloat(TotalCost.toFixed(2))); 
     }
-
+    
     function Compute()
     {
-        let UnitPrice = (ComputeTotalCost() / parseFloat(Quantity.toString()));
-        SetUnitPrice(FormatCurrency(UnitPrice));
-        SetTotalPrice(FormatCurrency(UnitPrice * parseFloat(Quantity.toString())));
+        let UPrice = (ComputeTotalCost() / parseFloat(Quantity.toString()));
+        SetUnitPrice(FormatCurrency(UPrice));
+        SetTotalPrice(FormatCurrency(UPrice * parseFloat(Quantity.toString())));
+    }
 
+    function handlesTotal()
+    {
         let PaperbagSummary = "Paperbag Details\nQty: " + Quantity + " pcs\nSize: " + Width + " x " + Depth + " x " + Height
-                            + " inches\nPrint: " + ColorNumber + " colors\nMaterial: " + MaterialSelected + "\nLamination: "
-                            + LaminationSelected;
+        + " inches\nPrint: " + ColorNumber + " colors\nMaterial: " + MaterialSelected + "\nLamination: "
+        + LaminationSelected + "\nUnit Price: " + UnitPrice +"\nTotal Price: " + TotalPrice;
 
         SetSummary(PaperbagSummary);
     }
@@ -201,7 +207,6 @@ function Requirements()
                     <InputField item={"Print Colors"} inputValue={ColorNumber} inputEvent={handlesColor} textType={'number'}></InputField>
                     <InputField item={"Material"} inputValue={MaterialSelected} inputEvent={handlesMaterial} textType={'number'}></InputField>
                     <InputField item={"Lamination"} inputValue={LaminationSelected} inputEvent={handlesLamination} textType={'number'}></InputField>
-                <div className="btn btn-outline-primary w-100 mb-2" id="btnSubmit" onClick={Compute}>Submit Details</div>
                 <div className="input-group mb-2">
                     <span className="input-group-text w-50">Unit Price</span>
                     <input type="text" className="form-control text-center" disabled key="UnitPrice" id="txtUnitPrice" value={UnitPrice}></input>

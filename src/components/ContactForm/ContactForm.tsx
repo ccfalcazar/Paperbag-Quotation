@@ -40,7 +40,7 @@ function ContactForm({Value, Handler}: Props) {
         </div>
         <div className="mb-2">
             <div className='mb-2'>Summary:</div>
-            <textarea className='form-control' id='Summary' name='Summary' onChange={Handler} rows={7} disabled value={Value}/>
+            <textarea id='Summary' name='Summary' className='form-control' onChange={Handler} rows={7} value={Value}/>
         </div>
         <span className='row m-auto'>
         <button type="submit" className='btn btn-outline-primary' disabled={state.submitting}>
