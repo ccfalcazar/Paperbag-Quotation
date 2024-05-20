@@ -1,5 +1,6 @@
 import { useState} from "react";
 import InputField from "../InputFields/InputField";
+import ContactForm from "../ContactForm/ContactForm";
 
 function Requirements()
 {
@@ -12,10 +13,7 @@ function Requirements()
     const [MaterialSelected, SetMaterial] = useState('Ordinary');
     const [ColorNumber, SetColors] = useState(0);
     const [LaminationSelected, SetLamination] = useState('None');
-    const [CustomerName, SetCustomerName] = useState('');
-    const [CompanyName, SetCompanyName] = useState('');
-    const [ContactNumber, SetContactNumber] = useState('');
-    const [CustomerEmail, SetCustomerEmail] = useState('');
+    const [Summary, SetSummary] = useState('Paperbag Details');
     const Size = function(PaperLength : number, PaperWidth : number) 
     {
         const Length = PaperLength;
@@ -52,21 +50,9 @@ function Requirements()
     {
         SetLamination(e.target.value);
     }
-    function handlesCustomerName(e:any)
+    function handlesSummary(e:any)
     {
-        SetCustomerName(e.target.value);
-    }
-    function handlesCompanyName(e:any)
-    {
-        SetCompanyName(e.target.value);
-    }
-    function handlesContactNumber(e:any)
-    {
-        SetContactNumber(e.target.value);
-    }
-    function handlesCustomerEmail(e:any)
-    {
-        SetCustomerEmail(e.target.value);
+        SetSummary(e.target.value);
     }
 
     function FormatCurrency(number: number)
@@ -128,16 +114,22 @@ function Requirements()
 
     function ComputeLaminationCost()
     {
+        let LaminationRate = 0;
         let LaminationCost = 0;
-        if(LaminationSelected == 'Matte')
+        if (LaminationSelected != 'None')
         {
-            LaminationCost = 0.009;
+            if(LaminationSelected == 'Matte')
+            {
+                LaminationRate = 0.009;
+            }
+            else if(LaminationSelected == 'Glossy')
+            {
+                LaminationRate = 0.002;
+            }
+            LaminationCost = ((GetPaperBagSpreadSize().Length* GetPaperBagSpreadSize().Width) * LaminationRate) * GetRequiredPaper();
+            return (LaminationCost < 600?600:LaminationCost);
         }
-        else if(LaminationSelected == 'Glossy')
-        {
-            LaminationCost = 0.002;
-        }
-        return (GetPaperBagSpreadSize().Length* GetPaperBagSpreadSize().Width * LaminationCost * GetRequiredPaper())
+        return 0;
     }
 
     function ComputeCTPCost()
@@ -177,7 +169,7 @@ function Requirements()
     {
         let TotalCost = ComputePaperCost() + ComputeOffsetCost() + ComputeLaminationCost()
                         + ComputeCTPCost() + ComputeBindingCost() + ComputeHandleCost() +
-                        ComputeDiecuttingCost() + ComputeDiecuttingBladeCost() + 2000;
+                        ComputeDiecuttingCost() + ComputeDiecuttingBladeCost() + 2500;
         TotalCost = TotalCost * (1.30);
         TotalCost = TotalCost * (1.12);
         return Math.ceil(parseFloat(TotalCost.toFixed(2))); 
@@ -188,6 +180,12 @@ function Requirements()
         let UnitPrice = (ComputeTotalCost() / parseFloat(Quantity.toString()));
         SetUnitPrice(FormatCurrency(UnitPrice));
         SetTotalPrice(FormatCurrency(UnitPrice * parseFloat(Quantity.toString())));
+
+        let PaperbagSummary = "Paperbag Details\nQty: " + Quantity + " pcs\nSize: " + Width + " x " + Depth + " x " + Height
+                            + " inches\nPrint: " + ColorNumber + " colors\nMaterial: " + MaterialSelected + "\nLamination: "
+                            + LaminationSelected;
+
+        SetSummary(PaperbagSummary);
     }
 
     return (
@@ -215,14 +213,8 @@ function Requirements()
                 </form>
             </div>
             <div className="col-md-6 justify-content-center">
-                <form>
                 <h5 className="mb-3">Customer Details:</h5>
-                    <InputField item="Name" inputValue={CustomerName} textType="text" inputEvent={handlesCustomerName}/>
-                    <InputField item="Company Name" inputValue={CompanyName} textType="text" inputEvent={handlesCompanyName}/>
-                    <InputField item="Contact Number" inputValue={ContactNumber} textType="text" inputEvent={handlesContactNumber}/>
-                    <InputField item="Email" inputValue={CustomerEmail} textType="text" inputEvent={handlesCustomerEmail}/>
-                <span className="d-flex justify-content-center"><button className="btn btn-outline-primary">Request Quotation</button></span>
-                </form>
+                <ContactForm Value={Summary} Handler={handlesSummary}/>
             </div>
         </div>
         </>
