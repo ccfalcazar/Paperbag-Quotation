@@ -164,7 +164,7 @@ function Requirements()
         let HorizontalLines = 5 * BladeCostPerInch * GetPaperBagSpreadSize().Width;
         let A = parseFloat(Depth.toString()) / 2;
         let Cos45 = Math.cos(45);
-        let Hypotenuse = Math.floor(((0.5+A)/Cos45)) * BladeCostPerInch * 2;
+        let Hypotenuse = Math.floor(((0.5+A)/Cos45)) * BladeCostPerInch * 3;
         return VerticalLines + HorizontalLines + Hypotenuse;
     }
 
